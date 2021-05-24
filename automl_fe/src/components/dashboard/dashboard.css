@@ -5,8 +5,10 @@
 .row1 {
     /* height: 40%; */
     margin-bottom: 30px;
+    min-height: 300px;
 }
 
 .row2 {
     height: 60%;
+    min-height: 300px;
 }
