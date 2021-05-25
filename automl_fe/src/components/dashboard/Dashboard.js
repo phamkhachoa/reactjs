@@ -26,6 +26,8 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import Header from "../shared/layout/header/Header";
 // function createData(name, calories, fat, carbs, protein) {
 //     return { name, calories, fat, carbs, protein };
 // }
@@ -33,16 +35,16 @@ import CloseIcon from '@material-ui/icons/Close';
 
 const styles = (theme) => ({
     root: {
-      margin: 0,
-      padding: theme.spacing(2),
+        margin: 0,
+        padding: theme.spacing(2),
     },
     closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
+        position: 'absolute',
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500],
     },
-  });
+});
 
 const options = {
     chart: {
@@ -82,16 +84,16 @@ const options = {
 const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
-      <MuiDialogTitle disableTypography className={classes.root} {...other}>
-        <Typography variant="h6">{children}</Typography>
-        {onClose ? (
-          <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </MuiDialogTitle>
+        <MuiDialogTitle disableTypography className={classes.root} {...other}>
+            <Typography variant="h6">{children}</Typography>
+            {onClose ? (
+                <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                    <CloseIcon />
+                </IconButton>
+            ) : null}
+        </MuiDialogTitle>
     );
-  });
+});
 
 const Dashboard = () => {
 
@@ -159,82 +161,90 @@ const Dashboard = () => {
     };
 
     return (
+        <>
+        <Header/>
         <div className="container-fluid gray_bg">
             <h2>Dashboard</h2>
             <div className="row row1">
-                <div className="col-4 ">
-                    <h3>Recent Projects</h3>
+                <div className="col-4">
+                    <div className="row-left">
+                        <h3>Recent Projects</h3>
 
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">STT</TableCell>
-                                    <TableCell align="center">Project Name</TableCell>
-                                    <TableCell align="center">Number of models used</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {projects.map((row, index) => (
-                                    <TableRow key={row.projectId}>
-                                        <TableCell align="center">{index + 1}</TableCell>
-                                        <TableCell align="center">{row.projectName}</TableCell>
-                                        <TableCell align="center">{row.numberModelInUsed}</TableCell>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead className="table-head">
+                                    <TableRow>
+                                        <TableCell align="center">STT</TableCell>
+                                        <TableCell align="center">Project Name</TableCell>
+                                        <TableCell align="center">Number of models used</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {projects.map((row, index) => (
+                                        <TableRow key={row.projectId}>
+                                            <TableCell align="center">{index + 1}</TableCell>
+                                            <TableCell align="center">{row.projectName}</TableCell>
+                                            <TableCell align="center">{row.numberModelInUsed}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
-                <div className="col-7 offset-md-1">
-                    <h3>Recent Models</h3>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">STT</TableCell>
-                                    <TableCell align="center">Model Name</TableCell>
-                                    <TableCell align="center">Project</TableCell>
-                                    <TableCell align="center">Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {models.map((row, index) => (
-                                    <TableRow key={row.name}>
-                                        <TableCell align="center">{index + 1}</TableCell>
-                                        <TableCell align="center">{row.modelName}</TableCell>
-                                        <TableCell align="center">{row.projectName}</TableCell>
-                                        <TableCell align="center"><a href="#" onClick={handleClickOpen}>view details</a></TableCell>
-                                        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-                                            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                                                Modal title
-        </DialogTitle>
-                                            <DialogContent dividers>
-                                                <Typography gutterBottom>
-                                                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                                                    in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </Typography>
-                                                <Typography gutterBottom>
-                                                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                                                    lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-                                                <Typography gutterBottom>
-                                                    Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                                                    scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                                                    auctor fringilla.
-          </Typography>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button autoFocus onClick={handleClose} color="primary">
-                                                    Save changes
-          </Button>
-                                            </DialogActions>
-                                        </Dialog>
+                <div className="col-7 ">
+                    <div className="row-right">
+                        <h3>Recent Models</h3>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead className="table-head">
+                                    <TableRow>
+                                        <TableCell align="center">STT</TableCell>
+                                        <TableCell align="center">Model Name</TableCell>
+                                        <TableCell align="center">Project</TableCell>
+                                        <TableCell align="center">Action</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {models.map((row, index) => (
+                                        (index < 5) && (
+                                            <TableRow key={row.name}>
+                                                <TableCell align="center">{index + 1}</TableCell>
+                                                <TableCell align="center">{row.modelName}</TableCell>
+                                                <TableCell align="center">{row.projectName}</TableCell>
+                                                <TableCell align="center"><a href="#" onClick={handleClickOpen}>view details</a></TableCell>
+                                                <Dialog
+                                                    open={open}
+                                                    onClose={handleClose}
+                                                    aria-labelledby="alert-dialog-title"
+                                                    aria-describedby="alert-dialog-description"
+                                                >
+                                                    <DialogTitle id="alert-dialog-title">
+                                                        <div>Dialog Model</div>
+                                                        <CloseIcon onClick={handleClose} />
+                                                    </DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText id="alert-dialog-description">
+                                                            Let Google help apps determine location. This means sending anonymous location data to
+                                                            Google, even when no apps are running.
+                                                </DialogContentText>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button onClick={handleClose} color="primary">
+                                                            Disagree
+                                                </Button>
+                                                        <Button onClick={handleClose} color="primary" autoFocus>
+                                                            Agree
+                                                </Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                            </TableRow>
+                                        )
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
             </div>
             <div className="row row2">
@@ -244,35 +254,66 @@ const Dashboard = () => {
                         options={options}
                         updateArgs={[true, true, true]}
                         allowChartUpdate={true}
+                        containerProps={{ className: "test-class" }}
                     />
                 </div>
-                <div className="col-7 offset-md-1">
-                    <h3>Recent Models</h3>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">STT</TableCell>
-                                    <TableCell align="center">Model Name</TableCell>
-                                    <TableCell align="center">Project</TableCell>
-                                    <TableCell align="center">Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {models.map((row, index) => (
-                                    <TableRow key={row.name}>
-                                        <TableCell align="center">{index + 1}</TableCell>
-                                        <TableCell align="center">{row.modelName}</TableCell>
-                                        <TableCell align="center">{row.projectName}</TableCell>
-                                        <TableCell align="center"><a href="#">view details</a></TableCell>
+                <div className="col-7 ">
+                <div className="row-right">
+                        <h3>Recent Models</h3>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead className="table-head">
+                                    <TableRow>
+                                        <TableCell align="center">STT</TableCell>
+                                        <TableCell align="center">Model Name</TableCell>
+                                        <TableCell align="center">Project</TableCell>
+                                        <TableCell align="center">Action</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {models.map((row, index) => (
+                                        (index < 5) && (
+                                            <TableRow key={row.name}>
+                                                <TableCell align="center">{index + 1}</TableCell>
+                                                <TableCell align="center">{row.modelName}</TableCell>
+                                                <TableCell align="center">{row.projectName}</TableCell>
+                                                <TableCell align="center"><a href="#" onClick={handleClickOpen}>view details</a></TableCell>
+                                                <Dialog
+                                                    open={open}
+                                                    onClose={handleClose}
+                                                    aria-labelledby="alert-dialog-title"
+                                                    aria-describedby="alert-dialog-description"
+                                                >
+                                                    <DialogTitle id="alert-dialog-title">
+                                                        <div>Dialog Model</div>
+                                                        <CloseIcon onClick={handleClose} />
+                                                    </DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText id="alert-dialog-description">
+                                                            Let Google help apps determine location. This means sending anonymous location data to
+                                                            Google, even when no apps are running.
+                                                </DialogContentText>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button onClick={handleClose} color="primary">
+                                                            Disagree
+                                                </Button>
+                                                        <Button onClick={handleClose} color="primary" autoFocus>
+                                                            Agree
+                                                </Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                            </TableRow>
+                                        )
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

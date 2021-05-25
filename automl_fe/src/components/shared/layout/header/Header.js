@@ -7,11 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Dashboard from '../../../dashboard/Dashboard';
-import Project from '../../../project/Project';
-import Model from '../../../Model/Model';
 import logo2 from "../../../../images/logo2.png";
 import './header.css';
+import { Link } from 'react-router-dom';
 
 function a11yProps(index) {
     return {
@@ -63,8 +61,8 @@ export default function Header() {
     };
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static" style={{flexDirection: "revert"}}>
+        <div className="header">
+            {/* <AppBar position="static" style={{flexDirection: "revert"}}>
                 <img src={logo2} style={{width: "2%", marginLeft: "10px", height: "90%"}}/>
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                     <Tab label="Dashboard" {...a11yProps(0)} />
@@ -80,7 +78,23 @@ export default function Header() {
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <Model/>
-            </TabPanel>
+            </TabPanel> */}
+
+            <div className="header-left">
+                <img src={logo2} style={{width: "10%", marginLeft: "80px", height: "90%", marginRight: "80px"}}/>
+                <div>
+                    <Link to='/dashboard' className='nav-link'>Dashboard</Link>
+                </div>
+                <div>
+                    <Link to='/project' className='nav-link'>Project</Link>
+                </div><div>
+                    <Link to='/model' className='nav-link'>Model</Link>
+                </div>
+            </div>
+
+            <div className="header-right">
+                <p>Logout</p>
+            </div>
         </div>
     );
 }

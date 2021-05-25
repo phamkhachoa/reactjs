@@ -12,3 +12,55 @@
     height: 60%;
     min-height: 300px;
 }
+
+.dialogModel {
+    min-width: 500px;
+}
+
+.gray_bg h2 {
+    color: rgba(76, 0, 255, 0.459);
+}
+
+
+.MuiDialog-paperWidthSm {
+    max-width: 900px !important;
+}
+
+.MuiTypography-h6 {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .chart-model {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+} */
+
+.table-head {
+    border-bottom: 5px solid rgb(37, 39, 150);
+}
+
+.row-right {
+    margin-left: 50px ;
+}
+
+.MuiBackdrop-root {
+    background-color: rgb(0 0 0 / 8%) !important;
+}
+
+.chart-model {
+    max-height: 330px;
+}
+
+
+.test-class {
+    width: 80%;
+    height: 320px;
+    margin: 50px auto;
+}
+
+.row-left {
+    width: 80%;
+    margin: 0 auto;
+}
