@@ -1,4 +1,21 @@
 .run-model {
   padding: 0 50px;
-  height: 80%;
+  min-height: 100vh;
+  /* background-color: #80808080; */
+}
+
+.step-content {
+  margin: 0 180px;
+  height: 500px;
+}
+
+.btn-content {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 150px;
+}
+
+.select-project {
+  min-width: 400px;
+  margin-bottom: 15px;
 }
