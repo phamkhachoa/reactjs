@@ -5,12 +5,18 @@ import { login } from "../../functions/auth";
 import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+
 const Login = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPasswod] = useState("");
 
+    const { user } = useSelector((state) => ({ ...state }));
+
     let history = useHistory();
+    let dispatch = useDispatch();
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -19,6 +25,12 @@ const Login = () => {
             .then((res) => {
                 console.log(res.data.id_token);
                 localStorage.setItem('id_token', res.data.id_token);
+                user.id_token = res.data.id_token;
+                dispatch({
+                    type: 'LOGGED_IN_USER',
+                    payload: user
+                });
+
                 history.push('/');
             })
             .catch((err) => {

@@ -1,52 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+// import ReactDOM from 'react-dom';
 import Header from '../shared/layout/header/Header';
 import "./model.css";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { Steps, Button, message } from 'antd';
+import 'antd/dist/antd.css';
+
 import { doSearch } from "../../functions/project";
-import { TextField } from '@material-ui/core';
+import Step1Form from '../forms/Step1Form';
+import Step2Form from '../forms/Step2Form';
+import { useDispatch, useSelector } from 'react-redux';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  backButton: {
-    marginRight: theme.spacing(1),
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-}));
-
-function getSteps() {
-  return ['Information', 'Browser data source', 'Select features, label', 'Select models', 'Select saved loaction'];
-}
-
-// function getStepContent(stepIndex) {
-
-//   }
-// }
+const { Step } = Steps;
 
 const Model = () => {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
   const [projects, setProjects] = useState([]);
-  const [projectId, setProjectId] = useState(0);
+  const [current, setCurrent] = React.useState(0);
+  const [values, setValues] = useState({});
+
+  let dispatch = useDispatch();
+
+  const next = () => {
+    setCurrent(current + 1);
+    // dispatch({
+    //   type: 'ADD_VALUE',
+    //   payload: values
+    // });
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
 
   useEffect(() => {
-    loadProject();
+    // loadProject();
   }, []);
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
   const loadProject = () => {
     doSearch({})
@@ -59,113 +50,59 @@ const Model = () => {
       });
   }
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const getStepContent = (stepIndex) => {
-    switch (stepIndex) {
-      case 0:
-        return (
-          <div className="step-content">
-            <h4>Select project</h4>
-            <form>
-              <div className="form-group">
-                <label for="exampleFormControlSelect1">Select project</label>
-                <select className="form-control" id="exampleFormControlSelect1">
-                  {projects.map((p) => {
-                    return <option value={p.projectId}>{p.projectName}</option>
-                  })}
-                </select>
-              </div>
-              <h5>Model information</h5>
-              <div className="form-group">
-                <label for="exampleFormControlInput1">Model Name</label>
-                <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="" />
-              </div>
-              <div className="form-group">
-                <label for="exampleFormControlTextarea1">Description</label>
-                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-              </div>
-              <div className="form-group">
-                <label for="exampleFormControlInput1">Run note</label>
-                <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="" />
-              </div>
-            </form>
-          </div>
-        );
-      case 1:
-        return (
-          <div className="step-content">
-            content1
-          </div>
-        );
-      case 2:
-        return (
-          <div className="step-content">
-            content1
-          </div>
-        );
-      case 3:
-        return (
-          <div className="step-content">
-            content1
-          </div>
-        );
-      case 4:
-        return (
-          <div className="step-content">
-            content1
-          </div>
-        );
-
-      default:
-        return 'Unknown stepIndex';
-    }
-  }
+  const steps = [
+    {
+      title: 'Information',
+      content: <Step1Form
+        next={next}
+        handleChange={handleChange}
+        setValues={setValues}
+        values={values} />,
+    },
+    {
+      title: 'Browser data source',
+      content: <Step2Form />,
+    },
+    {
+      title: 'Select features, label',
+      content: 'Last-content',
+    },
+    {
+      title: 'Select models',
+      content: 'Last-content',
+    },
+    {
+      title: 'Select saved location',
+      content: 'Last-content',
+    },
+  ];
 
   return (
     <>
       <Header />
       <div className="run-model">
-        <h3>Run new model</h3>
-        <div className={classes.root}>
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
+        <div className="run-model-content">
+          <Steps current={current}>
+            {steps.map(item => (
+              <Step key={item.title} title={item.title} />
             ))}
-          </Stepper>
-          <div >
-            {activeStep === steps.length ? (
-              <div>
-                <Button onClick={handleReset}>Reset</Button>
-              </div>
-            ) : (
-              <div>
-                <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                <div className="btn-content">
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.backButton}
-                  >
-                    Back
+          </Steps>
+          <div className="steps-content">{steps[current].content}</div>
+          <div className="steps-action">
+            {current < steps.length - 1 && (
+              <Button type="primary" onClick={() => next()}>
+                Next
               </Button>
-                  <Button variant="contained" color="primary" onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
-              </div>
+            )}
+            {current === steps.length - 1 && (
+              <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                Done
+              </Button>
+            )}
+            {current > 0 && (
+              <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                Previous
+              </Button>
             )}
           </div>
         </div>
