@@ -2,40 +2,35 @@ import React, { useEffect, useState } from 'react';
 import {
     Form,
     Input,
-    Button,
-    Radio,
     Select,
-    Cascader,
-    DatePicker,
-    InputNumber,
-    TreeSelect,
-    Switch,
     Checkbox
 } from 'antd';
 import 'antd/dist/antd.css';
 import "./step.css";
 
 //redux
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { doSearch } from "../../functions/project";
 
 const plainOptions = ['Train', 'Test'];
 const defaultCheckedList = ['Train', 'Test'];
 const CheckboxGroup = Checkbox.Group;
+const { Option } = Select;
+
+const options = [
+    { label: 'Apple', value: 'Apple' },
+    { label: 'Pear', value: 'Pear' },
+    { label: 'Orange', value: 'Orange' },
+];
+
+function onChange(checkedValues) {
+    console.log('checked = ', checkedValues);
+}
 
 const Step1Form = (props) => {
 
     const [projects, setProjects] = useState([]);
     const [checkedList, setCheckedList] = React.useState(defaultCheckedList);
-
-    // const { model } = useSelector((state) => ({ ...state }));
-    // const [projectId, setProjectId] = useState();
-    // const [modelName, setModelName] = useState();
-    // const [modelDescription, setModelDescription] = useState();
-    // const [runNote, setRunNote] = useState();
-    // const [values, setValues] = useState({});
-
-    // let dispatch = useDispatch();
 
     useEffect(() => {
         loadProject();
@@ -52,42 +47,33 @@ const Step1Form = (props) => {
             });
     }
 
-    // const handleChange = (e) => {
-    //     setValues({ ...values, [e.target.name]: e.target.value });
-    //     console.log(values);
-    //     dispatch({
-    //         type: 'ADD_VALUE',
-    //         payload: values
-    //     });
-    // };
-
     return (
         <div className="form-control-cus">
             <Form>
                 <h4>Select Project</h4>
                 <Form.Item className="input-cus">
-                    <Select>
+                    <Select value={props.configFlowDTO.projectId} onChange={props.handleChangeSelect}>
                         {projects.map((p) => {
-                            return <Select.Option value={p.projectId}>{p.projectName}</Select.Option>
+                            return <Option value={p.projectId} name="projectId">{p.projectName}</Option>
                         })}
                     </Select>
                 </Form.Item>
                 <h4>Model information</h4>
                 <h5>Model name *</h5>
                 <Form.Item className="input-cus-2">
-                    <Input onChange={props.handleChange} value={props.values.modelName} name="modelName"/>
+                    <Input onChange={props.handleChangeModel} value={props.modelDTO.modelName} name="modelName" />
                 </Form.Item>
                 <h5>Model description</h5>
                 <Form.Item name={['user', 'introduction']} className="input-cus-2">
-                    <Input.TextArea />
+                    <Input.TextArea onChange={props.handleChangeModel} value={props.modelDTO.descritption} name="descritption" />
                 </Form.Item>
                 <h5>Run note *</h5>
                 <Form.Item className="input-cus-2">
-                    <Input />
+                    <Input onChange={props.handleChangeModel} value={props.modelDTO.runNote} name="runNote" />
                 </Form.Item>
                 <h5>Task *</h5>
                 <div>
-                    <CheckboxGroup options={plainOptions} value={checkedList} />
+                    <Checkbox.Group options={options} defaultValue={['Pear']} onChange={onChange} />
                 </div>
             </Form>
         </div>

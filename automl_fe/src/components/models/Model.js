@@ -16,15 +16,17 @@ const Model = () => {
   const [projects, setProjects] = useState([]);
   const [current, setCurrent] = React.useState(0);
   const [values, setValues] = useState({});
+  const [modelDTO, setModelDTO] = useState({});
+  const [configFlowDTO, setConfigFlowDTO] = useState({});
 
   let dispatch = useDispatch();
 
   const next = () => {
     setCurrent(current + 1);
-    // dispatch({
-    //   type: 'ADD_VALUE',
-    //   payload: values
-    // });
+    dispatch({
+      type: 'ADD_VALUE',
+      payload: {...values, modelDTO, configFlowDTO}
+    });
   };
 
   const prev = () => {
@@ -37,6 +39,19 @@ const Model = () => {
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeModel = (e) => {
+    setModelDTO({ ...modelDTO, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeConfigFlow = (e) => {
+    setConfigFlowDTO({ ...configFlowDTO, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeSelect = (e, action) => {
+    // console.log(e, action);
+    setConfigFlowDTO({ ...configFlowDTO, [action.name]: e });
   };
 
   const loadProject = () => {
@@ -54,10 +69,14 @@ const Model = () => {
     {
       title: 'Information',
       content: <Step1Form
-        next={next}
-        handleChange={handleChange}
-        setValues={setValues}
-        values={values} />,
+      handleChangeModel={handleChangeModel}
+      handleChangeConfigFlow={handleChangeConfigFlow}
+      setModelDTO={setModelDTO}
+      setConfigFlowDTO={setConfigFlowDTO}
+      modelDTO={modelDTO}
+      configFlowDTO={configFlowDTO} 
+      handleChangeSelect={handleChangeSelect}
+      />,
     },
     {
       title: 'Browser data source',
